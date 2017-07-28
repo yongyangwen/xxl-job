@@ -73,11 +73,12 @@ public class XxlJobTrigger {
 
         ReturnT<String> triggerResult = new ReturnT<>(null);
         StringBuilder triggerMsgSb = new StringBuilder();
+
         triggerMsgSb.append("注册方式：").append((group.getAddressType() == 0) ? "自动注册" : "手动录入");
         triggerMsgSb.append("<br>阻塞处理策略：").append(blockStrategy.getTitle());
         triggerMsgSb.append("<br>失败处理策略：").append(failStrategy.getTitle());
         triggerMsgSb.append("<br>地址列表：").append(group.getRegistryList());
-        triggerMsgSb.append("<br>路由策略：").append(executorRouteStrategyEnum.getTitle());
+        triggerMsgSb.append("<br>路由策略：").append(executorRouteStrategyEnum != null ? executorRouteStrategyEnum.getTitle() : "");
 
         // 3、trigger-valid
         if (triggerResult.getCode() == ReturnT.SUCCESS_CODE && CollectionUtils.isEmpty(addressList)) {
@@ -85,7 +86,7 @@ public class XxlJobTrigger {
             triggerMsgSb.append("<br>----------------------<br>").append("调度失败：").append("执行器地址为空");
         }
 
-        if (triggerResult.getCode() == ReturnT.SUCCESS_CODE) {
+        if (triggerResult.getCode() == ReturnT.SUCCESS_CODE && executorRouteStrategyEnum == null) {
             triggerResult.setCode(ReturnT.FAIL_CODE);
             triggerMsgSb.append("<br>----------------------<br>").append("调度失败：").append("执行器路由策略为空");
         }
