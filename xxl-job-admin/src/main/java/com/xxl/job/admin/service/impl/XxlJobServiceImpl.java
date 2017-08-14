@@ -11,6 +11,7 @@ import com.xxl.job.admin.dao.IXxlJobInfoDao;
 import com.xxl.job.admin.dao.IXxlJobLogDao;
 import com.xxl.job.admin.dao.IXxlJobLogGlueDao;
 import com.xxl.job.admin.service.XxlJobService;
+import com.xxl.job.core.biz.model.JobParam;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
@@ -85,7 +86,7 @@ public class XxlJobServiceImpl implements XxlJobService {
             try {
                 xxlJobDynamicScheduler.addJob(qz_name, qz_group, jobInfo.getJobCron());
                 //XxlJobDynamicScheduler.pauseJob(qz_name, qz_group);
-                return ReturnT.SUCCESS;
+                return ReturnT.success(String.valueOf(jobInfo.getId()));//content中返回jobId
             } catch (SchedulerException e) {
                 logger.error("", e);
                 try {
@@ -94,11 +95,19 @@ public class XxlJobServiceImpl implements XxlJobService {
                 } catch (SchedulerException e1) {
                     logger.error("", e1);
                 }
-                return ReturnT.error("新增任务失败:" + e.getMessage());
+                return ReturnT.error("新增任务调度失败:" + e.getMessage());
             }
         } else {
             return checkRet;
         }
+    }
+
+    @Override
+    public ReturnT<String> add(JobParam jobParam) {
+        XxlJobGroup jobGroup = xxlJobGroupDao.findByAppName(jobParam.getAppname());
+        XxlJobInfo jobInfo = new XxlJobInfo().from(jobParam, jobGroup.getId());
+
+        return add(jobInfo);
     }
 
     @Override

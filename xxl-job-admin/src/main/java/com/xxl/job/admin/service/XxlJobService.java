@@ -2,6 +2,7 @@ package com.xxl.job.admin.service;
 
 
 import com.xxl.job.admin.core.model.XxlJobInfo;
+import com.xxl.job.core.biz.model.JobParam;
 import com.xxl.job.core.biz.model.ReturnT;
 
 import java.util.Map;
@@ -16,6 +17,8 @@ public interface XxlJobService {
 	Map<String, Object> pageList(int start, int length, int jobGroup, String executorHandler, String filterTime);
 	
 	ReturnT<String> add(XxlJobInfo jobInfo);
+
+	ReturnT<String> add(JobParam jobParam);
 	
 	ReturnT<String> reschedule(XxlJobInfo jobInfo);
 	

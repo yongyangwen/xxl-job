@@ -23,6 +23,7 @@ public class AdminApiUtil {
 
     public static final String CALLBACK = "/api/callback";
     public static final String REGISTRY = "/api/registry";
+    public static final String ADDJOB = "/api2/addjob";
 
     private static List<String> adminAddressList = null;
 
@@ -50,15 +51,15 @@ public class AdminApiUtil {
         }
 
         for (String adminAddress : adminAddressList) {
-            ReturnT<String> registryResult = null;
+            ReturnT<String> callResult = null;
             try {
                 String apiUrl = adminAddress.concat(subUrl);
-                registryResult = callApi(apiUrl, requestObj);
+                callResult = callApi(apiUrl, requestObj);
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
-            if (registryResult != null && registryResult.getCode() == ReturnT.SUCCESS_CODE) {
-                return ReturnT.SUCCESS;
+            if (callResult != null && callResult.getCode() == ReturnT.SUCCESS_CODE) {
+                return callResult;
             }
         }
         return ReturnT.FAIL;
