@@ -19,4 +19,15 @@ public class XxlJobScheduler {
         }
         return ReturnT.SUCCESS;
     }
+
+    public ReturnT<String> triggerJob(int id) {
+        try {
+            ReturnT<String> triggerJobResult = AdminApiUtil.callApiFailover(AdminApiUtil.TRIGGERJOB, id);
+            logger.info(">>>>>>>>>>> xxl-job trigger job {}, id:{}, triggerJobResult:{}",
+                    (triggerJobResult.getCode() == ReturnT.SUCCESS_CODE ? "success" : "fail"), id, triggerJobResult.toString());
+        } catch (Exception e) {
+            logger.error(">>>>>>>>>>> xxl-job XxlJobScheduler Exception:", e);
+        }
+        return ReturnT.SUCCESS;
+    }
 }

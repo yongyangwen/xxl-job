@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -33,5 +30,12 @@ public class JobApi2Controller {
     @PermissionLimit(limit = false)
     public ReturnT<String> addJob(@RequestBody JobParam jobParam) {
         return xxlJobService.add(jobParam);
+    }
+
+    @RequestMapping(value = AdminApiUtil.TRIGGERJOB, method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    @PermissionLimit(limit = false)
+    public ReturnT<String> triggerJob(@RequestParam int id) {
+        return xxlJobService.triggerJob(id);
     }
 }

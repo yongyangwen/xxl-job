@@ -24,6 +24,7 @@ public class AdminApiUtil {
     public static final String CALLBACK = "/api/callback";
     public static final String REGISTRY = "/api/registry";
     public static final String ADDJOB = "/api2/addjob";
+    public static final String TRIGGERJOB = "/api2/triggerjob";
 
     private static List<String> adminAddressList = null;
 
